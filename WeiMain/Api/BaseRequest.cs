@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WeiMain.Api
 {
-    public abstract class BaseRequest
+    public abstract class BaseRequest<T>
     {
         protected const string BASE_URL = @"http://tingapi.ting.baidu.com/v1/restserver/ting?method={0}&format=json&from={1}&version={2}";
         protected const string FROM = @"wp10";
@@ -31,7 +31,8 @@ namespace WeiMain.Api
 
         protected abstract string GetQueryContent();
 
-        protected abstract Task ParseAsync(string json);
+        // 此处判断是否ResponseOk，从解析结果来看
+        protected abstract T ParseAsync(string json);
 
 
         public bool IsRequestAllOK()
@@ -54,7 +55,7 @@ namespace WeiMain.Api
         {
             if(result == null)
             {
-                RequestSucceeded = false;
+                HttpStatusCode = HttpStatusCode.NoContent;
                 return;
             }
             try
@@ -67,11 +68,11 @@ namespace WeiMain.Api
                     string responseContent = reader.ReadToEnd();
                     if (string.IsNullOrEmpty(responseContent))
                     {
-                        RequestSucceeded = false;
+                        HttpStatusCode = HttpStatusCode.NoContent;
                         return;
                     } else
                     {
-                        RequestSucceeded = true;
+                        HttpStatusCode = HttpStatusCode.OK;
                         ParseAsync(responseContent);
                     }
 
