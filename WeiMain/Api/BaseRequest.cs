@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 
 namespace WeiMain.Api
@@ -70,13 +71,18 @@ namespace WeiMain.Api
                     {
                         HttpStatusCode = HttpStatusCode.NoContent;
                         return;
-                    } else
+                    }
+                    else
                     {
                         HttpStatusCode = HttpStatusCode.OK;
-                        ParseAsync(responseContent);
-                    }
-
-                    
+                        JObject obj = JObject.Parse(responseContent);
+                        JToken jErrorCode;
+                        if (obj.TryGetValue("error_code", out jErrorCode) && jErrorCode != null)
+                        {
+                            ContentErrorCode = jErrorCode.Value<string>();
+                            ParseAsync(responseContent);
+                        }
+                    } 
                 }
             }
             catch( Exception e)
@@ -94,5 +100,6 @@ namespace WeiMain.Api
             request.Method = "GET";
             request.BeginGetResponse(ResponseCallback, request);
         }
+
     }
 }
