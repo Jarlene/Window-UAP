@@ -1,5 +1,4 @@
 ﻿using WeiMain.Api;
-using System.Runtime.Serialization;
 
 namespace WeiMain.model
 {
@@ -7,6 +6,8 @@ namespace WeiMain.model
     {
         protected string error = ErrorCode.OK;
 
+
+        public abstract void ParaseJson(string jsonString);
 
     }
 }

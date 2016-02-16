@@ -6,11 +6,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-
+using WeiMain.model;
 
 namespace WeiMain.Api
 {
-    public abstract class BaseRequest<T>
+    public abstract class BaseRequest<T> where  T : BaseObject
     {
         protected const string BASE_URL = @"http://tingapi.ting.baidu.com/v1/restserver/ting?method={0}&format=json&from={1}&version={2}";
         protected const string FROM = @"wp10";

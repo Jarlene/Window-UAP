@@ -33,5 +33,10 @@ namespace WeiMain.model
 
         [JsonProperty(PropertyName = "lrclink")]
         public string LyricLink { get; set; }
+
+        public override void ParaseJson(string jsonString)
+        {
+            
+        }
     }
 }
