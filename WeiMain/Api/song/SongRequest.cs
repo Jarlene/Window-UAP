@@ -41,7 +41,7 @@ namespace WeiMain.Api.song
             {
                 ContentErrorCode = ErrorCode.Failed;
             }
-            return null;
+            return song;
 
         }
     }
